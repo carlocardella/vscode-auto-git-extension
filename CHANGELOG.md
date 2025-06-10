@@ -1,1 +1,4 @@
-// ...existing code...
+# Changelog
+
+## [0.1.0]
+- Initial release
