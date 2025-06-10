@@ -43,7 +43,12 @@ function startSyncTimer(intervalMinutes: number) {
 export function activate(context: vscode.ExtensionContext) {
   const config = vscode.workspace.getConfiguration('autoGit');
   const interval = config.get<number>('syncInterval', 10);
+  const syncOnStartup = config.get<boolean>('syncOnStartup', true);
   startSyncTimer(interval);
+
+  if (syncOnStartup) {
+    autoSync();
+  }
 
   context.subscriptions.push(
     vscode.workspace.onDidSaveTextDocument(autoCommit),
