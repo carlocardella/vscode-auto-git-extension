@@ -41,6 +41,11 @@
         "type": "boolean",
         "default": true,
         "description": "If true, perform a git pull/push sync when the extension is activated, even if no file has been saved yet."
+      },
+      "autoGit.syncAfterCommit": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, perform a git pull/push sync immediately after each auto-commit."
       }
     }
   },

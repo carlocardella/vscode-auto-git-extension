@@ -17,6 +17,11 @@ async function autoCommit(document: vscode.TextDocument) {
   try {
     await git.add(document.fileName);
     await git.commit(`Auto-commit: ${path.basename(document.fileName)} saved at ${new Date().toLocaleString()}`);
+    const config = vscode.workspace.getConfiguration('autoGit');
+    const syncAfterCommit = config.get<boolean>('syncAfterCommit', false);
+    if (syncAfterCommit) {
+      await autoSync();
+    }
   } catch (err) {
     vscode.window.showErrorMessage(`Auto-commit failed: ${err}`);
   }
