@@ -25,27 +25,27 @@
         "command": "extension.autoGit",
         "title": "Auto Git"
       }
-    ]
-  },
-  "configuration": {
-    "type": "object",
-    "title": "Auto Git Configuration",
-    "properties": {
-      "autoGit.syncInterval": {
-        "type": "number",
-        "default": 10,
-        "minimum": 1,
-        "description": "Interval in minutes for periodic pull/push to the remote repository."
-      },
-      "autoGit.syncOnStartup": {
-        "type": "boolean",
-        "default": true,
-        "description": "If true, perform a git pull/push sync when the extension is activated, even if no file has been saved yet."
-      },
-      "autoGit.syncAfterCommit": {
-        "type": "boolean",
-        "default": false,
-        "description": "If true, perform a git pull/push sync immediately after each auto-commit."
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Auto Git Configuration",
+      "properties": {
+        "autoGit.syncInterval": {
+          "type": "number",
+          "default": 10,
+          "minimum": 1,
+          "description": "Interval in minutes for periodic pull/push to the remote repository."
+        },
+        "autoGit.syncOnStartup": {
+          "type": "boolean",
+          "default": true,
+          "description": "If true, perform a git pull/push sync when the extension is activated, even if no file has been saved yet."
+        },
+        "autoGit.syncAfterCommit": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true, perform a git pull/push sync immediately after each auto-commit."
+        }
       }
     }
   },
