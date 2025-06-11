@@ -73,5 +73,6 @@
     "git",
     "automation"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "preview": true
 }
