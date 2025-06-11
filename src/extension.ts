@@ -37,6 +37,11 @@ async function autoSync() {
   if (!root) return;
   git = simpleGit(root);
   try {
+    const remotes = await git.getRemotes(true);
+    if (remotes.length === 0) {
+      vscode.window.setStatusBarMessage('Auto Git: No remote defined, skipping sync', 2000);
+      return;
+    }
     await git.pull();
     await git.push();
     vscode.window.setStatusBarMessage('Auto Git: Synced with remote', 2000);
@@ -57,7 +62,11 @@ export function activate(context: vscode.ExtensionContext) {
   startSyncTimer(interval);
 
   if (syncOnStartup) {
-    autoSync();
+    // Only sync if enabled is true
+    const enabled = config.get<boolean>('enabled', false);
+    if (enabled) {
+      autoSync();
+    }
   }
 
   context.subscriptions.push(
