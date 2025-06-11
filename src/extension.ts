@@ -11,7 +11,7 @@ function getWorkspaceRoot(): string | undefined {
 }
 
 async function autoCommit(document: vscode.TextDocument) {
-  const config = vscode.workspace.getConfiguration('vscode-autogit');
+  const config = vscode.workspace.getConfiguration('vscode-autoGit');
   const enabled = config.get<boolean>('enabled', false);
   if (!enabled) return;
   const root = getWorkspaceRoot();
@@ -30,7 +30,7 @@ async function autoCommit(document: vscode.TextDocument) {
 }
 
 async function autoSync() {
-  const config = vscode.workspace.getConfiguration('vscode-autogit');
+  const config = vscode.workspace.getConfiguration('vscode-autoGit');
   const enabled = config.get<boolean>('enabled', false);
   if (!enabled) return;
   const root = getWorkspaceRoot();
@@ -51,7 +51,7 @@ function startSyncTimer(intervalMinutes: number) {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-  const config = vscode.workspace.getConfiguration('vscode-autogit');
+  const config = vscode.workspace.getConfiguration('vscode-autoGit');
   const interval = config.get<number>('syncInterval', 10);
   const syncOnStartup = config.get<boolean>('syncOnStartup', true);
   startSyncTimer(interval);
@@ -62,15 +62,15 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.workspace.onDidSaveTextDocument(autoCommit),
-    vscode.commands.registerCommand('extension.autogit', () => {
+    vscode.commands.registerCommand('extension.autoGit', () => {
       vscode.window.showInformationMessage('Auto Git extension is now active!');
     })
   );
 
   context.subscriptions.push(
     vscode.workspace.onDidChangeConfiguration((e: vscode.ConfigurationChangeEvent) => {
-      if (e.affectsConfiguration('vscode-autogit.syncInterval')) {
-        const newInterval = vscode.workspace.getConfiguration('vscode-autogit').get<number>('syncInterval', 10);
+      if (e.affectsConfiguration('vscode-autoGit.syncInterval')) {
+        const newInterval = vscode.workspace.getConfiguration('vscode-autoGit').get<number>('syncInterval', 10);
         startSyncTimer(newInterval);
       }
     })

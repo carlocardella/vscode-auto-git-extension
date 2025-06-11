@@ -1,5 +1,5 @@
 {
-  "name": "vscode-autogit",
+  "name": "vscode-autoGit",
   "displayName": "VSCode Auto Git Extension",
   "description": "An extension that automatically checks in changes to the local repository on file save and periodically pulls/pushes to GitHub.",
   "version": "0.1.0",
@@ -22,7 +22,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "extension.autogit",
+        "command": "extension.autoGit",
         "title": "Auto Git"
       }
     ],
@@ -30,26 +30,26 @@
       "type": "object",
       "title": "Auto Git Configuration",
       "properties": {
-        "vscode-autogit.syncInterval": {
+        "vscode-autoGit.syncInterval": {
           "type": "number",
           "default": 10,
           "minimum": 1,
           "description": "Interval in minutes for periodic pull/push to the remote repository.",
           "scope": "resource"
         },
-        "vscode-autogit.syncOnStartup": {
+        "vscode-autoGit.syncOnStartup": {
           "type": "boolean",
           "default": true,
           "description": "If true, perform a git pull/push sync when the extension is activated, even if no file has been saved yet.",
           "scope": "resource"
         },
-        "vscode-autogit.syncAfterCommit": {
+        "vscode-autoGit.syncAfterCommit": {
           "type": "boolean",
           "default": false,
           "description": "If true, perform a git pull/push sync immediately after each auto-commit.",
           "scope": "resource"
         },
-        "vscode-autogit.enabled": {
+        "vscode-autoGit.enabled": {
           "type": "boolean",
           "default": false,
           "description": "If true, the extension will automatically commit and sync changes. If false, no git operations will be performed even if the extension is active.",
