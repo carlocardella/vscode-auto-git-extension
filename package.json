@@ -21,7 +21,8 @@
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
         "webpack": "webpack --mode production",
-        "webpack:watch": "webpack --watch --mode development"
+        "webpack:watch": "webpack --watch --mode development",
+        "test": "vscode-test --config=.vscode-test.json --extensionDevelopmentPath=. --extensionTestsPath=./out/extension.test.js"
     },
     "contributes": {
         "commands": [
@@ -72,10 +73,12 @@
         "simple-git": "^3.28.0"
     },
     "devDependencies": {
+        "@types/mocha": "^10.0.10",
         "@types/node": "^16.11.7",
         "@types/vscode": "^1.63.0",
         "@vscode/test-cli": "^0.0.11",
         "@vscode/test-electron": "^2.5.2",
+        "mocha": "^11.6.0",
         "ts-loader": "^9.5.1",
         "typescript": "^4.4.4",
         "webpack": "^5.88.2",
