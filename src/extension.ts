@@ -17,7 +17,7 @@ async function autoCommit(document: vscode.TextDocument) {
   try {
     await git.add(document.fileName);
     await git.commit(`Auto-commit: ${path.basename(document.fileName)} saved at ${new Date().toLocaleString()}`);
-    const config = vscode.workspace.getConfiguration('autoGit');
+    const config = vscode.workspace.getConfiguration('vscode-autoGit');
     const syncAfterCommit = config.get<boolean>('syncAfterCommit', false);
     if (syncAfterCommit) {
       await autoSync();
@@ -46,7 +46,7 @@ function startSyncTimer(intervalMinutes: number) {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-  const config = vscode.workspace.getConfiguration('autoGit');
+  const config = vscode.workspace.getConfiguration('vscode-autoGit');
   const interval = config.get<number>('syncInterval', 10);
   const syncOnStartup = config.get<boolean>('syncOnStartup', true);
   startSyncTimer(interval);
@@ -64,8 +64,8 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.workspace.onDidChangeConfiguration((e: vscode.ConfigurationChangeEvent) => {
-      if (e.affectsConfiguration('autoGit.syncInterval')) {
-        const newInterval = vscode.workspace.getConfiguration('autoGit').get<number>('syncInterval', 10);
+      if (e.affectsConfiguration('vscode-autoGit.syncInterval')) {
+        const newInterval = vscode.workspace.getConfiguration('vscode-autoGit').get<number>('syncInterval', 10);
         startSyncTimer(newInterval);
       }
     })
