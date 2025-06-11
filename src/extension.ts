@@ -5,6 +5,7 @@ import * as path from 'path';
 let syncInterval: NodeJS.Timeout | undefined;
 let git: SimpleGit;
 let statusBarItem: vscode.StatusBarItem | undefined;
+let commitTimers: Map<string, NodeJS.Timeout> = new Map();
 
 function getWorkspaceRoot(): string | undefined {
   const folders = vscode.workspace.workspaceFolders;
@@ -97,6 +98,20 @@ function updateStatusBar(enabled: boolean, show: boolean) {
   statusBarItem.show();
 }
 
+function scheduleAutoCommit(document: vscode.TextDocument) {
+  const filePath = document.fileName;
+  if (commitTimers.has(filePath)) {
+    clearTimeout(commitTimers.get(filePath)!);
+  }
+  commitTimers.set(
+    filePath,
+    setTimeout(() => {
+      autoCommit(document);
+      commitTimers.delete(filePath);
+    }, 30000)
+  );
+}
+
 export function activate(context: vscode.ExtensionContext) {
   const config = vscode.workspace.getConfiguration('vscode-autoGit');
   const interval = config.get<number>('syncInterval', 10);
@@ -111,7 +126,7 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   context.subscriptions.push(
-    vscode.workspace.onDidSaveTextDocument(autoCommit),
+    vscode.workspace.onDidSaveTextDocument(scheduleAutoCommit),
     vscode.commands.registerCommand('extension.autoGit', () => {
       vscode.window.showInformationMessage('Auto Git extension is now active!');
     })
