@@ -102,5 +102,6 @@
         "automation"
     ],
     "license": "MIT",
-    "preview": true
+    "preview": true,
+    "icon": "icon2.png"
 }

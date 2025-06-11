@@ -1,5 +1,9 @@
 # VSCode Auto Git Extension
 
+<p align="center">
+  <img src="icon2.png" alt="VSCode Auto Git Extension Icon" width="96" height="96">
+</p>
+
 This extension automatically checks in changes to your local repository on file save and periodically pulls/pushes to your remote (GitHub, Azure Repos, Bitbucket, etc.).
 
 ## Features
@@ -11,8 +15,8 @@ This extension automatically checks in changes to your local repository on file 
 - **Works with any git remote**
 - **All features are disabled by default**; you must enable them in the settings
 - **No errors if no remote is defined** (commits only, skips sync)
-- **Experimental: AI commit message support** — If GitHub Copilot or another AI extension exposes a compatible API, the extension will attempt to use it to generate commit messages. If not, a generic message is used. As of June 2025, Copilot's commit message generation is not available programmatically, so the extension will usually fall back to the generic message.
-- **Status bar toggle** — Click the status bar item to enable or disable Auto Git instantly.
+- **Experimental: AI commit message support** - If GitHub Copilot or another AI extension exposes a compatible API, the extension will attempt to use it to generate commit messages. If not, a generic message is used. As of June 2025, Copilot's commit message generation is not available programmatically, so the extension will usually fall back to the generic message.
+- **Status bar toggle** - Click the status bar item to enable or disable Auto Git instantly.
 
 ## Extension Settings
 - `vscode-autoGit.enabled` (boolean): If true, the extension will automatically commit and sync changes. If false, no git operations will be performed even if the extension is active.
