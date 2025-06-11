@@ -130,6 +130,16 @@ function startSyncTimer(intervalMinutes: number) {
   syncInterval = setInterval(autoSync, intervalMinutes * 60 * 1000);
 }
 
+function toggleAutoGitEnabled() {
+  const config = vscode.workspace.getConfiguration('vscode-autoGit');
+  const enabled = config.get<boolean>('enabled', false);
+  config.update('enabled', !enabled, vscode.ConfigurationTarget.Workspace).then(() => {
+    const showStatusBar = config.get<boolean>('statusBar', true);
+    updateStatusBar(!enabled, showStatusBar);
+    vscode.window.showInformationMessage(`Auto Git is now ${!enabled ? 'enabled' : 'disabled'}.`);
+  });
+}
+
 function updateStatusBar(enabled: boolean, show: boolean) {
   if (!show) {
     if (statusBarItem) {
@@ -139,7 +149,7 @@ function updateStatusBar(enabled: boolean, show: boolean) {
   }
   if (!statusBarItem) {
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-    statusBarItem.command = 'extension.autoGit';
+    statusBarItem.command = 'extension.autoGit.toggleEnabled';
   }
   statusBarItem.text = enabled ? '$(git-commit) AutoGit: On' : '$(git-commit) AutoGit: Off';
   statusBarItem.tooltip = enabled ? 'Auto Git is enabled' : 'Auto Git is disabled';
@@ -188,6 +198,10 @@ export function activate(context: vscode.ExtensionContext) {
         startSyncTimer(newInterval);
       }
     })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('extension.autoGit.toggleEnabled', toggleAutoGitEnabled)
   );
 }
 

@@ -29,6 +29,10 @@
             {
                 "command": "extension.autoGit",
                 "title": "Auto Git"
+            },
+            {
+                "command": "extension.autoGit.toggleEnabled",
+                "title": "Toggle Auto Git Enable/Disable"
             }
         ],
         "configuration": {

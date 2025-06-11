@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.2] - 2025-06-11
+- Add status bar toggle to enable/disable Auto Git with one click
+- Cleaned up debug traces for AI commit message logic
+- AI commit message generation is attempted if possible, but falls back to generic message if not available
+
 ## [0.1.1] - 2025-06-11
 - Cleaned up all debug traces for AI commit message logic
 - AI commit message generation is attempted if possible, but falls back to generic message if not available
