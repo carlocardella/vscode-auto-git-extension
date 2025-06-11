@@ -11,6 +11,7 @@ This extension automatically checks in changes to your local repository on file 
 - **Works with any git remote**
 - **All features are disabled by default**; you must enable them in the settings
 - **No errors if no remote is defined** (commits only, skips sync)
+- **Experimental: AI commit message support** — If GitHub Copilot or another AI extension exposes a compatible API, the extension will attempt to use it to generate commit messages. If not, a generic message is used. As of June 2025, Copilot's commit message generation is not available programmatically, so the extension will usually fall back to the generic message.
 
 ## Extension Settings
 - `vscode-autoGit.enabled` (boolean): If true, the extension will automatically commit and sync changes. If false, no git operations will be performed even if the extension is active.
@@ -29,7 +30,14 @@ This extension automatically checks in changes to your local repository on file 
 3. Go to Settings and search for "Auto Git" or "vscode-autoGit".
 4. Enable `vscode-autoGit.enabled` and configure other options as desired.
 
+## Limitations
+- AI commit message generation is experimental and depends on the availability of a compatible API from Copilot or other AI extensions. As of June 2025, Copilot's commit message generation cannot be invoked programmatically by other extensions, so the extension will usually use a generic commit message.
+
 ## Release Notes
+
+### 0.1.1
+- Cleaned up debug traces for AI commit message logic
+- AI commit message generation is attempted if possible, but falls back to generic message if not available
 
 ### 0.1.0
 - Initial preview release

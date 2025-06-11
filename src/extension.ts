@@ -31,6 +31,43 @@ function setStatusBarWorking(working: boolean) {
   }
 }
 
+async function getAICommitMessage(document: vscode.TextDocument): Promise<string | undefined> {
+  try {
+    if ((vscode as any).lm && typeof (vscode as any).lm.selectChatModels === 'function') {
+      let models = await (vscode as any).lm.selectChatModels({ vendor: 'copilot' });
+      if (!models || models.length === 0) {
+        models = await (vscode as any).lm.selectChatModels({});
+      }
+      if (models && models.length > 0) {
+        const model = models[0];
+        const fileName = document.fileName;
+        const fileContent = document.getText();
+        const prompt = `Write a concise, conventional commit message for the following file change. File: ${fileName}\n\nContent:\n${fileContent}\n\nRespond with only the commit message.`;
+        let messages;
+        if (vscode?.LanguageModelChatMessage?.User) {
+          messages = [vscode.LanguageModelChatMessage.User(prompt)];
+        } else {
+          messages = [{ role: 'user', content: prompt }];
+        }
+        const response = await model.sendRequest(messages, {});
+        if (response && response.choices && response.choices.length > 0) {
+          const msg = response.choices[0].message?.content || response.choices[0].content;
+          if (msg && typeof msg === 'string') {
+            return msg.trim();
+          }
+        } else if (response && response.text && typeof response.text === 'string') {
+          return response.text.trim();
+        } else if (response && response.stream && typeof response.stream === 'string') {
+          return response.stream.trim();
+        }
+      }
+    }
+  } catch (err) {
+    // Silently ignore errors and fallback to generic message
+  }
+  return undefined;
+}
+
 async function autoCommit(document: vscode.TextDocument) {
   const config = vscode.workspace.getConfiguration('vscode-autoGit');
   const enabled = config.get<boolean>('enabled', false);
@@ -44,7 +81,12 @@ async function autoCommit(document: vscode.TextDocument) {
   git = simpleGit(root);
   try {
     await git.add(document.fileName);
-    await git.commit(`Auto-commit: ${path.basename(document.fileName)} saved at ${new Date().toLocaleString()}`);
+    let commitMessage = await getAICommitMessage(document);
+    console.log('[AutoGit] Commit message to be used:', commitMessage);
+    if (!commitMessage) {
+      commitMessage = `Auto-commit: ${path.basename(document.fileName)} saved at ${new Date().toLocaleString()}`;
+    }
+    await git.commit(commitMessage);
     const syncAfterCommit = config.get<boolean>('syncAfterCommit', false);
     if (syncAfterCommit) {
       await autoSync();
