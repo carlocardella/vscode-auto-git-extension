@@ -11,13 +11,15 @@ function getWorkspaceRoot(): string | undefined {
 }
 
 async function autoCommit(document: vscode.TextDocument) {
+  const config = vscode.workspace.getConfiguration('vscode-autogit');
+  const enabled = config.get<boolean>('enabled', false);
+  if (!enabled) return;
   const root = getWorkspaceRoot();
   if (!root) return;
   git = simpleGit(root);
   try {
     await git.add(document.fileName);
     await git.commit(`Auto-commit: ${path.basename(document.fileName)} saved at ${new Date().toLocaleString()}`);
-    const config = vscode.workspace.getConfiguration('vscode-autogit');
     const syncAfterCommit = config.get<boolean>('syncAfterCommit', false);
     if (syncAfterCommit) {
       await autoSync();
@@ -28,6 +30,9 @@ async function autoCommit(document: vscode.TextDocument) {
 }
 
 async function autoSync() {
+  const config = vscode.workspace.getConfiguration('vscode-autogit');
+  const enabled = config.get<boolean>('enabled', false);
+  if (!enabled) return;
   const root = getWorkspaceRoot();
   if (!root) return;
   git = simpleGit(root);

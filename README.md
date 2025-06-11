@@ -1,17 +1,30 @@
 # VSCode Auto Git Extension
 
-This extension automatically checks in changes to your local repository on file save and periodically pulls/pushes to GitHub.
+This extension automatically checks in changes to your local repository on file save and periodically pulls/pushes to your remote (GitHub, Azure Repos, Bitbucket, etc.).
 
 ## Features
-- Auto-commit on file save
-- Periodic pull/push to remote (configurable interval)
+- **Auto-commit on file save** (if enabled)
+- **Periodic pull/push to remote** (configurable interval, if enabled)
+- **Sync on startup** (optional)
+- **Sync after each commit** (optional)
+- **Works with any git remote**
+- **All features are disabled by default**; you must enable them in the settings
+
+## Extension Settings
+- `vscode-autogit.enabled` (boolean): If true, the extension will automatically commit and sync changes. If false, no git operations will be performed even if the extension is active.
+- `vscode-autogit.syncInterval` (number): Interval in minutes for periodic pull/push to the remote repository. Default: 10
+- `vscode-autogit.syncOnStartup` (boolean): If true, perform a git pull/push sync when the extension is activated, even if no file has been saved yet. Default: true
+- `vscode-autogit.syncAfterCommit` (boolean): If true, perform a git pull/push sync immediately after each auto-commit. Default: false
 
 ## Requirements
 - Git must be installed and available in your PATH
 - A local git repository must already be initialized
 
-## Extension Settings
-- `autogit.syncInterval`: Interval in minutes for periodic pull/push (default: 10)
+## Usage
+1. Install the extension (from VSIX or Marketplace).
+2. Open your workspace/folder containing a git repository.
+3. Go to Settings and search for "Auto Git" or "vscode-autogit".
+4. Enable `vscode-autogit.enabled` and configure other options as desired.
 
 ## Development
 - Run `npm install` to install dependencies
@@ -20,4 +33,5 @@ This extension automatically checks in changes to your local repository on file 
 ## Release Notes
 
 ### 0.1.0
-- Initial release
+- Initial preview release
+- All features are opt-in via settings

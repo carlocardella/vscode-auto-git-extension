@@ -48,6 +48,12 @@
           "default": false,
           "description": "If true, perform a git pull/push sync immediately after each auto-commit.",
           "scope": "resource"
+        },
+        "vscode-autogit.enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true, the extension will automatically commit and sync changes. If false, no git operations will be performed even if the extension is active.",
+          "scope": "resource"
         }
       }
     }
