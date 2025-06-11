@@ -14,14 +14,20 @@ function getWorkspaceRoot(): string | undefined {
 
 function setStatusBarWorking(working: boolean) {
   if (!statusBarItem) return;
+  const config = vscode.workspace.getConfiguration('vscode-autoGit');
+  const showStatusBar = config.get<boolean>('statusBar', true);
+  if (!showStatusBar) {
+    statusBarItem.hide();
+    return;
+  }
   if (working) {
     statusBarItem.text = '$(sync~spin) AutoGit: Working...';
     statusBarItem.tooltip = 'Auto Git is performing an operation';
   } else {
-    const config = vscode.workspace.getConfiguration('vscode-autoGit');
     const enabled = config.get<boolean>('enabled', false);
-    statusBarItem.text = enabled ? '$(cloud-upload) AutoGit: On' : '$(cloud-off) AutoGit: Off';
+    statusBarItem.text = enabled ? '$(git-commit) AutoGit: On' : '$(git-commit) AutoGit: Off';
     statusBarItem.tooltip = enabled ? 'Auto Git is enabled' : 'Auto Git is disabled';
+    statusBarItem.show();
   }
 }
 
@@ -93,7 +99,7 @@ function updateStatusBar(enabled: boolean, show: boolean) {
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
     statusBarItem.command = 'extension.autoGit';
   }
-  statusBarItem.text = enabled ? '$(cloud-upload) AutoGit: On' : '$(cloud-off) AutoGit: Off';
+  statusBarItem.text = enabled ? '$(git-commit) AutoGit: On' : '$(git-commit) AutoGit: Off';
   statusBarItem.tooltip = enabled ? 'Auto Git is enabled' : 'Auto Git is disabled';
   statusBarItem.show();
 }
@@ -126,10 +132,7 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   context.subscriptions.push(
-    vscode.workspace.onDidSaveTextDocument(scheduleAutoCommit),
-    vscode.commands.registerCommand('extension.autoGit', () => {
-      vscode.window.showInformationMessage('Auto Git extension is now active!');
-    })
+    vscode.workspace.onDidSaveTextDocument(scheduleAutoCommit)
   );
 
   context.subscriptions.push(
