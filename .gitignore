@@ -3,3 +3,4 @@ out/
 .vscode-test/
 .env
 *.log
+*.vsix
