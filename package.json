@@ -58,6 +58,12 @@
                     "default": false,
                     "description": "If true, the extension will automatically commit and sync changes. If false, no git operations will be performed even if the extension is active.",
                     "scope": "resource"
+                },
+                "vscode-autoGit.statusBar": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show a status bar indicator for Auto Git enabled/disabled state.",
+                    "scope": "resource"
                 }
             }
         }

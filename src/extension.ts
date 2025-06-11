@@ -4,18 +4,36 @@ import * as path from 'path';
 
 let syncInterval: NodeJS.Timeout | undefined;
 let git: SimpleGit;
+let statusBarItem: vscode.StatusBarItem | undefined;
 
 function getWorkspaceRoot(): string | undefined {
   const folders = vscode.workspace.workspaceFolders;
   return folders && folders.length > 0 ? folders[0].uri.fsPath : undefined;
 }
 
+function setStatusBarWorking(working: boolean) {
+  if (!statusBarItem) return;
+  if (working) {
+    statusBarItem.text = '$(sync~spin) AutoGit: Working...';
+    statusBarItem.tooltip = 'Auto Git is performing an operation';
+  } else {
+    const config = vscode.workspace.getConfiguration('vscode-autoGit');
+    const enabled = config.get<boolean>('enabled', false);
+    statusBarItem.text = enabled ? '$(cloud-upload) AutoGit: On' : '$(cloud-off) AutoGit: Off';
+    statusBarItem.tooltip = enabled ? 'Auto Git is enabled' : 'Auto Git is disabled';
+  }
+}
+
 async function autoCommit(document: vscode.TextDocument) {
   const config = vscode.workspace.getConfiguration('vscode-autoGit');
   const enabled = config.get<boolean>('enabled', false);
   if (!enabled) return;
+  setStatusBarWorking(true);
   const root = getWorkspaceRoot();
-  if (!root) return;
+  if (!root) {
+    setStatusBarWorking(false);
+    return;
+  }
   git = simpleGit(root);
   try {
     await git.add(document.fileName);
@@ -26,6 +44,8 @@ async function autoCommit(document: vscode.TextDocument) {
     }
   } catch (err) {
     vscode.window.showErrorMessage(`Auto-commit failed: ${err}`);
+  } finally {
+    setStatusBarWorking(false);
   }
 }
 
@@ -33,8 +53,12 @@ async function autoSync() {
   const config = vscode.workspace.getConfiguration('vscode-autoGit');
   const enabled = config.get<boolean>('enabled', false);
   if (!enabled) return;
+  setStatusBarWorking(true);
   const root = getWorkspaceRoot();
-  if (!root) return;
+  if (!root) {
+    setStatusBarWorking(false);
+    return;
+  }
   git = simpleGit(root);
   try {
     const remotes = await git.getRemotes(true);
@@ -47,6 +71,8 @@ async function autoSync() {
     vscode.window.setStatusBarMessage('Auto Git: Synced with remote', 2000);
   } catch (err) {
     vscode.window.showErrorMessage(`Auto-sync failed: ${err}`);
+  } finally {
+    setStatusBarWorking(false);
   }
 }
 
@@ -55,18 +81,33 @@ function startSyncTimer(intervalMinutes: number) {
   syncInterval = setInterval(autoSync, intervalMinutes * 60 * 1000);
 }
 
+function updateStatusBar(enabled: boolean, show: boolean) {
+  if (!show) {
+    if (statusBarItem) {
+      statusBarItem.hide();
+    }
+    return;
+  }
+  if (!statusBarItem) {
+    statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+    statusBarItem.command = 'extension.autoGit';
+  }
+  statusBarItem.text = enabled ? '$(cloud-upload) AutoGit: On' : '$(cloud-off) AutoGit: Off';
+  statusBarItem.tooltip = enabled ? 'Auto Git is enabled' : 'Auto Git is disabled';
+  statusBarItem.show();
+}
+
 export function activate(context: vscode.ExtensionContext) {
   const config = vscode.workspace.getConfiguration('vscode-autoGit');
   const interval = config.get<number>('syncInterval', 10);
   const syncOnStartup = config.get<boolean>('syncOnStartup', true);
+  const enabled = config.get<boolean>('enabled', false);
+  const showStatusBar = config.get<boolean>('statusBar', true);
+  updateStatusBar(enabled, showStatusBar);
   startSyncTimer(interval);
 
-  if (syncOnStartup) {
-    // Only sync if enabled is true
-    const enabled = config.get<boolean>('enabled', false);
-    if (enabled) {
-      autoSync();
-    }
+  if (syncOnStartup && enabled) {
+    autoSync();
   }
 
   context.subscriptions.push(
@@ -78,8 +119,12 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.workspace.onDidChangeConfiguration((e: vscode.ConfigurationChangeEvent) => {
+      const config = vscode.workspace.getConfiguration('vscode-autoGit');
+      const enabled = config.get<boolean>('enabled', false);
+      const showStatusBar = config.get<boolean>('statusBar', true);
+      updateStatusBar(enabled, showStatusBar);
       if (e.affectsConfiguration('vscode-autoGit.syncInterval')) {
-        const newInterval = vscode.workspace.getConfiguration('vscode-autoGit').get<number>('syncInterval', 10);
+        const newInterval = config.get<number>('syncInterval', 10);
         startSyncTimer(newInterval);
       }
     })
