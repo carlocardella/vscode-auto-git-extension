@@ -11,7 +11,7 @@ This extension automatically checks in changes to your local repository on file 
 - A local git repository must already be initialized
 
 ## Extension Settings
-- `autoGit.syncInterval`: Interval in minutes for periodic pull/push (default: 10)
+- `autogit.syncInterval`: Interval in minutes for periodic pull/push (default: 10)
 
 ## Development
 - Run `npm install` to install dependencies
