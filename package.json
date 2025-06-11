@@ -1,86 +1,93 @@
 {
-  "name": "vscode-autoGit",
-  "displayName": "VSCode Auto Git Extension",
-  "description": "An extension that automatically checks in changes to the local repository on file save and periodically pulls/pushes to GitHub.",
-  "version": "0.1.0",
-  "publisher": "carlocardella",
-  "engines": {
-    "vscode": "^1.63.0"
-  },
-  "activationEvents": [
-    "onSaveTextDocument",
-    "workspaceContains:.git"
-  ],
-  "main": "./out/extension.js",
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "webpack": "webpack --mode production",
-    "webpack:watch": "webpack --watch --mode development"
-  },
-  "contributes": {
-    "commands": [
-      {
-        "command": "extension.autoGit",
-        "title": "Auto Git"
-      }
+    "name": "vscode-autogit",
+    "displayName": "VSCode Auto Git Extension",
+    "description": "An extension that automatically checks in changes to the local repository on file save and periodically pulls/pushes to GitHub.",
+    "version": "0.1.0",
+    "publisher": "carlocardella",
+    "author": {
+        "name": "Carlo Cardella",
+        "url": "https://cloudnotes.io"
+    },
+    "engines": {
+        "vscode": "^1.63.0"
+    },
+    "activationEvents": [
+        "onSaveTextDocument",
+        "workspaceContains:.git"
     ],
-    "configuration": {
-      "type": "object",
-      "title": "Auto Git Configuration",
-      "properties": {
-        "vscode-autoGit.syncInterval": {
-          "type": "number",
-          "default": 10,
-          "minimum": 1,
-          "description": "Interval in minutes for periodic pull/push to the remote repository.",
-          "scope": "resource"
-        },
-        "vscode-autoGit.syncOnStartup": {
-          "type": "boolean",
-          "default": true,
-          "description": "If true, perform a git pull/push sync when the extension is activated, even if no file has been saved yet.",
-          "scope": "resource"
-        },
-        "vscode-autoGit.syncAfterCommit": {
-          "type": "boolean",
-          "default": false,
-          "description": "If true, perform a git pull/push sync immediately after each auto-commit.",
-          "scope": "resource"
-        },
-        "vscode-autoGit.enabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "If true, the extension will automatically commit and sync changes. If false, no git operations will be performed even if the extension is active.",
-          "scope": "resource"
+    "main": "./out/extension.js",
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "webpack": "webpack --mode production",
+        "webpack:watch": "webpack --watch --mode development"
+    },
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.autoGit",
+                "title": "Auto Git"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "Auto Git Configuration",
+            "properties": {
+                "vscode-autoGit.syncInterval": {
+                    "type": "number",
+                    "default": 10,
+                    "minimum": 1,
+                    "description": "Interval in minutes for periodic pull/push to the remote repository.",
+                    "scope": "resource"
+                },
+                "vscode-autoGit.syncOnStartup": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "If true, perform a git pull/push sync when the extension is activated, even if no file has been saved yet.",
+                    "scope": "resource"
+                },
+                "vscode-autoGit.syncAfterCommit": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If true, perform a git pull/push sync immediately after each auto-commit.",
+                    "scope": "resource"
+                },
+                "vscode-autoGit.enabled": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If true, the extension will automatically commit and sync changes. If false, no git operations will be performed even if the extension is active.",
+                    "scope": "resource"
+                }
+            }
         }
-      }
-    }
-  },
-  "dependencies": {
-    "simple-git": "^3.28.0"
-  },
-  "devDependencies": {
-    "@types/node": "^16.11.7",
-    "@types/vscode": "^1.63.0",
-    "@vscode/test-cli": "^0.0.11",
-    "@vscode/test-electron": "^2.5.2",
-    "ts-loader": "^9.5.1",
-    "typescript": "^4.4.4",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/carlocardella/vscode-auto-git-extension.git"
-  },
-  "keywords": [
-    "vscode",
-    "extension",
-    "git",
-    "automation"
-  ],
-  "license": "MIT",
-  "preview": true
+    },
+    "dependencies": {
+        "simple-git": "^3.28.0"
+    },
+    "devDependencies": {
+        "@types/node": "^16.11.7",
+        "@types/vscode": "^1.63.0",
+        "@vscode/test-cli": "^0.0.11",
+        "@vscode/test-electron": "^2.5.2",
+        "ts-loader": "^9.5.1",
+        "typescript": "^4.4.4",
+        "webpack": "^5.88.2",
+        "webpack-cli": "^5.1.4"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/carlocardella/vscode-auto-git-extension.git"
+    },
+    "bugs": {
+        "url": "https://github.com/carlocardella/vscode-auto-git-extension/issues"
+    },
+    "keywords": [
+        "vscode",
+        "extension",
+        "git",
+        "automation"
+    ],
+    "license": "MIT",
+    "preview": true
 }
