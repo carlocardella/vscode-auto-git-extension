@@ -69,6 +69,13 @@
                     "default": true,
                     "description": "Show a status bar indicator for autoGit enabled/disabled state.",
                     "scope": "resource"
+                },
+                "vscode-autoGit.debounceIntervalSeconds": {
+                    "type": "number",
+                    "default": 30,
+                    "minimum": 5,
+                    "description": "Number of seconds of inactivity before auto-commit is triggered after editing a file.",
+                    "scope": "resource"
                 }
             }
         }

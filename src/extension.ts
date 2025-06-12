@@ -164,7 +164,12 @@ function updateStatusBar(enabled: boolean, show: boolean) {
     statusBarItem.show();
 }
 
-function scheduleAutoCommit(document: vscode.TextDocument) {
+// Debounced auto-commit on pause after editing
+function scheduleAutoCommitOnEdit(document: vscode.TextDocument) {
+    if (document.uri.scheme !== 'file') return;
+    const config = vscode.workspace.getConfiguration("vscode-autoGit");
+    const debounceSeconds = config.get<number>("debounceIntervalSeconds", 30);
+    const debounceMs = Math.max(5000, debounceSeconds * 1000); // minimum 5 seconds
     const filePath = document.fileName;
     if (commitTimers.has(filePath)) {
         clearTimeout(commitTimers.get(filePath)!);
@@ -174,8 +179,13 @@ function scheduleAutoCommit(document: vscode.TextDocument) {
         setTimeout(() => {
             autoCommit(document);
             commitTimers.delete(filePath);
-        }, 30000)
+        }, debounceMs)
     );
+}
+
+function scheduleAutoCommit(document: vscode.TextDocument) {
+    // For backward compatibility: still debounce on save, but use the same logic
+    scheduleAutoCommitOnEdit(document);
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -191,6 +201,13 @@ export function activate(context: vscode.ExtensionContext) {
         autoSync();
     }
 
+    context.subscriptions.push(
+        vscode.workspace.onDidChangeTextDocument((event) => {
+            if (event.document) {
+                scheduleAutoCommitOnEdit(event.document);
+            }
+        })
+    );
     context.subscriptions.push(
         vscode.workspace.onDidSaveTextDocument(scheduleAutoCommit)
     );
