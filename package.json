@@ -103,5 +103,6 @@
     ],
     "license": "MIT",
     "preview": true,
-    "icon": "icon2.png"
+    "icon": "icon2.png",
+    "homepage": "https://cloudnotes.io"
 }
