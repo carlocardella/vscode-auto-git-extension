@@ -8,6 +8,7 @@ This extension automatically checks in changes to your local repository on file 
 
 ## Features
 - **Auto-commit on file save** (if enabled)
+- **Auto-commit and sync of all pending changes on interval** (even if no file is saved; e.g. file deletions, renames, etc. are always committed)
 - **Periodic pull/push to remote** (configurable interval, if enabled)
 - **Sync on startup** (optional)
 - **Sync after each commit** (optional)
@@ -35,20 +36,29 @@ This extension automatically checks in changes to your local repository on file 
 4. Enable `vscode-autoGit.enabled` and configure other options as desired.
 5. Click the status bar item to quickly enable or disable Auto Git.
 
+## How It Works
+- On file save, all changes are staged and committed (if enabled).
+- On the configured interval, **all pending changes** (including untracked, deleted, renamed, or updated files) are staged and committed, even if no file was saved. This ensures that actions like file deletions or renames are always committed and pushed.
+- AI-powered commit message generation is attempted (using Copilot if available), otherwise a descriptive fallback message is used listing all changed files.
+
 ## Limitations
-- AI commit message generation is removed. Auto Git now uses a static commit message for auto-commits.
+- Requires a local git repository.
+- If no remote is defined, only local commits are made (no errors).
 
 ## Commit Message Generation
 
-Auto Git now always uses a static commit message for auto-commits. AI-powered commit message generation (Copilot or other AI) has been removed for reliability and simplicity. The commit message format is:
+Auto Git attempts to use AI (Copilot) to generate a commit message for all staged changes. If unavailable, it falls back to a message like:
 
 ```
-Auto-commit: <filename> saved at <timestamp>
+Auto-commit: <file1>, <file2>, ... at <timestamp>
 ```
-
-No AI, Copilot, or context logic is used for commit messages.
 
 ## Release Notes
+
+### 0.1.3 (Unreleased)
+- Stage and commit all pending changes (including untracked, deleted, renamed, etc.) before every sync, even if no file is saved
+- Improved fallback commit message to list all changed files
+- AI commit message generation for all changes (if Copilot is available)
 
 ### 0.1.2
 - Add status bar toggle to enable/disable Auto Git with one click
