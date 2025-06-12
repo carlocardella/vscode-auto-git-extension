@@ -301,48 +301,40 @@ async function generateCommitMessage(statusOutput: string): Promise<string> {
 
         // Try to use Copilot Chat API
         try {
-            if (
-                (vscode as any).lm &&
-                typeof (vscode as any).lm.selectChatModels === "function"
-            ) {
-                const models = await (vscode as any).lm.selectChatModels({
-                    vendor: "copilot",
-                    family: "gpt-4",
-                });
+            // Use the user's selected model if available, otherwise fall back to Copilot/gpt-4
+            let models;
+            if ((vscode as any).lm && typeof (vscode as any).lm.selectChatModels === "function") {
+                // Try to get all available models (user's selection is prioritized by VS Code UI)
+                models = await (vscode as any).lm.selectChatModels();
+            }
+            if (models && models.length > 0) {
+                console.log(
+                    `vscode-autoGit: Using user-selected LLM model: ${models[0].id || models[0].family}`
+                );
+                const model = models[0];
+                const messages = [
+                    (vscode as any).LanguageModelChatMessage.User(prompt),
+                ];
 
-                if (models && models.length > 0) {
+                const response = await model.sendRequest(
+                    messages,
+                    {},
+                    new (vscode as any).CancellationTokenSource().token
+                );
+                let commitMessage = "";
+                for await (const fragment of response.text) {
+                    commitMessage += fragment;
+                }
+
+                commitMessage = commitMessage.trim();
+                if (commitMessage && commitMessage.length > 0) {
                     console.log(
-                        "vscode-autoGit: Copilot model found, generating message..."
+                        "vscode-autoGit: AI commit message generated successfully"
                     );
-                    const model = models[0];
-                    const messages = [
-                        (vscode as any).LanguageModelChatMessage.User(prompt),
-                    ];
-
-                    const response = await model.sendRequest(
-                        messages,
-                        {},
-                        new (vscode as any).CancellationTokenSource().token
-                    );
-                    let commitMessage = "";
-                    for await (const fragment of response.text) {
-                        commitMessage += fragment;
-                    }
-
-                    commitMessage = commitMessage.trim();
-                    if (commitMessage && commitMessage.length > 0) {
-                        console.log(
-                            "vscode-autoGit: AI commit message generated successfully"
-                        );
-                        return commitMessage;
-                    }
-                } else {
-                    console.log("vscode-autoGit: No Copilot models available");
+                    return commitMessage;
                 }
             } else {
-                console.log(
-                    "vscode-autoGit: Copilot Language Model API not available"
-                );
+                console.log("vscode-autoGit: No LLM models available");
             }
         } catch (copilotError: unknown) {
             if (
