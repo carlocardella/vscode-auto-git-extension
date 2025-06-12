@@ -18,3 +18,8 @@
 - Status bar indicator for enabled/disabled and working state (configurable)
 - No errors if no remote is defined (commits only, skips sync)
 - All features are opt-in via settings
+
+## [Unreleased]
+- Removed all AI/Copilot commit message generation logic.
+- Auto-commits now always use a static message: `Auto-commit: <filename> saved at <timestamp>`.
+- No context, instructions, or Copilot integration remains for commit messages.

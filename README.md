@@ -15,7 +15,6 @@ This extension automatically checks in changes to your local repository on file 
 - **Works with any git remote**
 - **All features are disabled by default**; you must enable them in the settings
 - **No errors if no remote is defined** (commits only, skips sync)
-- **Experimental: AI commit message support** - If GitHub Copilot or another AI extension exposes a compatible API, the extension will attempt to use it to generate commit messages. If not, a generic message is used. As of June 2025, Copilot's commit message generation is not available programmatically, so the extension will usually fall back to the generic message.
 - **Status bar toggle** - Click the status bar item to enable or disable Auto Git instantly.
 
 ## Extension Settings
@@ -37,7 +36,17 @@ This extension automatically checks in changes to your local repository on file 
 5. Click the status bar item to quickly enable or disable Auto Git.
 
 ## Limitations
-- AI commit message generation is experimental and depends on the availability of a compatible API from Copilot or other AI extensions. As of June 2025, Copilot's commit message generation cannot be invoked programmatically by other extensions, so the extension will usually use a generic commit message.
+- AI commit message generation is removed. Auto Git now uses a static commit message for auto-commits.
+
+## Commit Message Generation
+
+Auto Git now always uses a static commit message for auto-commits. AI-powered commit message generation (Copilot or other AI) has been removed for reliability and simplicity. The commit message format is:
+
+```
+Auto-commit: <filename> saved at <timestamp>
+```
+
+No AI, Copilot, or context logic is used for commit messages.
 
 ## Release Notes
 
