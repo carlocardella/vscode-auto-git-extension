@@ -5,10 +5,10 @@
     "outDir": "out",
     "lib": ["es6"],
     "sourceMap": true,
-    "rootDir": "src",
+    "rootDir": ".",
     "strict": true,
     "esModuleInterop": true
   },
-  "include": ["src"],
+  "include": ["src", "tests/extension.test.ts"],
   "exclude": ["node_modules", ".vscode-test", "vscode-auto-git-extension"]
 }
