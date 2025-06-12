@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.4] - 2025-06-12
+- AI commit message prompt now uses file diffs and gitdoc-style instructions for more meaningful, semantic commit messages
+- Improved commit message quality for all auto-commits
+
 ## [0.1.2] - 2025-06-11
 - Add status bar toggle to enable/disable autoGit with one click
 - Cleaned up debug traces for AI commit message logic
