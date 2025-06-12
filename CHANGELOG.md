@@ -3,6 +3,7 @@
 ## [0.1.4] - 2025-06-12
 - AI commit message prompt now uses file diffs and gitdoc-style instructions for more meaningful, semantic commit messages
 - Improved commit message quality for all auto-commits
+- **Credits:** AI commit message logic and auto-commit workflow inspired by [GitDoc](https://github.com/lostintangent/gitdoc) and [AutoGit](https://github.com/Sonica-B/AutoGit/tree/main)
 
 ## [0.1.2] - 2025-06-11
 - Add status bar toggle to enable/disable autoGit with one click

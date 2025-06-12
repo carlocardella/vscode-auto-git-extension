@@ -6,6 +6,13 @@
 
 This extension automatically checks in changes to your local repository on file save and periodically pulls/pushes to your remote (GitHub, Azure Repos, Bitbucket, etc.).
 
+---
+
+**Credits:**
+- Inspired by [GitDoc](https://github.com/lostintangent/gitdoc) and [AutoGit](https://github.com/Sonica-B/AutoGit/tree/main). This extension adapts and extends ideas from both projects, especially for AI-powered commit message generation and auto-commit workflows.
+
+---
+
 ## Features
 - **Auto-commit on file save** (if enabled)
 - **Auto-commit and sync of all pending changes on interval** (even if no file is saved; e.g. file deletions, renames, etc. are always committed)
