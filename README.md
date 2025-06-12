@@ -1,17 +1,12 @@
-# VSCode Auto Git Extension
+# VSCode autoGit Extension
 
-<p align="center">
-  <img src="icon2.png" alt="VSCode Auto Git Extension Icon" width="96" height="96">
-</p>
+<div align="left">
+  <img src="icon2.png" alt="VSCode Auto Git Extension Icon" width="96" height="96" style="float:left; margin-right: 1em; margin-bottom: 1em;" />
+</div>
 
 This extension automatically checks in changes to your local repository on file save and periodically pulls/pushes to your remote (GitHub, Azure Repos, Bitbucket, etc.).
 
----
-
-**Credits:**
-- Inspired by [GitDoc](https://github.com/lostintangent/gitdoc) and [AutoGit](https://github.com/Sonica-B/AutoGit/tree/main). This extension adapts and extends ideas from both projects, especially for AI-powered commit message generation and auto-commit workflows.
-
----
+<br>
 
 ## Features
 - **Auto-commit on file save** (if enabled)
@@ -85,3 +80,8 @@ Auto-commit: <file1>, <file2>, ... at <timestamp>
 - All features are opt-in via settings
 - Status bar indicator for enabled/disabled and working state
 - No errors if no remote is defined (commits only, skips sync)
+
+---
+
+**Credits:**
+- Inspired by [GitDoc](https://github.com/lostintangent/gitdoc) and [AutoGit](https://github.com/Sonica-B/AutoGit/tree/main). This extension adapts and extends ideas from both projects, especially for AI-powered commit message generation and auto-commit workflows.
