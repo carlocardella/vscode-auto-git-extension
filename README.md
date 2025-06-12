@@ -1,5 +1,20 @@
 # VSCode autoGit Extension
 
+![.github/workflows/BuildAndPublish.yml](https://github.com/carlocardella/vscode-auto-git-extension/workflows/.github/workflows/BuildAndPublish.yml/badge.svg?branch=master)
+![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/carlocardella.vscode-auto-git-extension)
+![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/carlocardella.vscode-auto-git-extension)
+![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/carlocardella.vscode-auto-git-extension)
+![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/carlocardella.vscode-auto-git-extension)
+[![GitHub issues](https://img.shields.io/github/issues/carlocardella/vscode-auto-git-extension.svg)](https://github.com/carlocardella/vscode-auto-git-extension/issues)
+[![GitHub license](https://img.shields.io/github/license/carlocardella/vscode-auto-git-extension.svg)](https://github.com/carlocardella/vscode-auto-git-extension/blob/master/LICENSE.md)
+<!-- [![Twitter](https://img.shields.io/twitter/url/https/github.com/carlocardella/vscode-auto-git-extension.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fcarlocardella%2Fvscode-auto-git-extension) -->
+<!-- [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/carlocardella/vscode-auto-git-extension) -->
+
+[Download for VS Code](https://marketplace.visualstudio.com/items?itemName=CarloCardella.vscode-auto-git-extension)
+
+<!-- [Download for VS Codium](https://open-vsx.org/extension/carlocardella/vscode-auto-git-extension) -->
+
+
 <div align="left">
   <img src="icon2.png" alt="VSCode Auto Git Extension Icon" width="96" height="96" style="float:left; margin-right: 1em; margin-bottom: 1em;" />
 </div>
@@ -19,6 +34,7 @@ This extension automatically checks in changes to your local repository on file 
 - **All features are disabled by default**; you must enable them in the settings
 - **No errors if no remote is defined** (commits only, skips sync)
 - **Status bar toggle** - Click the status bar item to enable or disable Auto Git instantly.
+- **User-configurable debounce interval** for auto-commit after inactivity (default: 30 seconds)
 
 ## Extension Settings
 - `vscode-autoGit.enabled` (boolean): If true, the extension will automatically commit and sync changes. If false, no git operations will be performed even if the extension is active.
@@ -26,6 +42,7 @@ This extension automatically checks in changes to your local repository on file 
 - `vscode-autoGit.syncOnStartup` (boolean): If true, perform a git pull/push sync when the extension is activated, even if no file has been saved yet. Default: true
 - `vscode-autoGit.syncAfterCommit` (boolean): If true, perform a git pull/push sync immediately after each auto-commit. Default: false
 - `vscode-autoGit.statusBar` (boolean): Show a status bar indicator for Auto Git enabled/disabled state and working status. Default: true
+- `vscode-autoGit.debounceIntervalSeconds` (number): Number of seconds of inactivity before auto-commit is triggered after editing a file. Default: 30, minimum: 5
 
 ## Requirements
 - Git must be installed and available in your PATH
@@ -42,6 +59,7 @@ This extension automatically checks in changes to your local repository on file 
 - On file save, all changes are staged and committed (if enabled).
 - On the configured interval, **all pending changes** (including untracked, deleted, renamed, or updated files) are staged and committed, even if no file was saved. This ensures that actions like file deletions or renames are always committed and pushed.
 - **AI-powered commit message generation** is attempted (using Copilot if available), using a rich prompt with file diffs and gitdoc-style instructions for more meaningful, semantic commit messages. If AI is unavailable, a descriptive fallback message is used listing all changed files.
+- **Auto-commit after inactivity**: When editing, auto-commit is triggered only after a user-configurable period of inactivity (default: 30 seconds).
 
 ## Limitations
 - Requires a local git repository.
@@ -57,29 +75,7 @@ Auto-commit: <file1>, <file2>, ... at <timestamp>
 
 ## Release Notes
 
-### 0.1.4
-- AI commit message prompt now uses file diffs and gitdoc-style instructions for more meaningful, semantic commit messages
-- Improved commit message quality for all auto-commits
-
-### 0.1.3 (Unreleased)
-- Stage and commit all pending changes (including untracked, deleted, renamed, etc.) before every sync, even if no file is saved
-- Improved fallback commit message to list all changed files
-- AI commit message generation for all changes (if Copilot is available)
-
-### 0.1.2
-- Add status bar toggle to enable/disable Auto Git with one click
-- Cleaned up debug traces for AI commit message logic
-- AI commit message generation is attempted if possible, but falls back to generic message if not available
-
-### 0.1.1
-- Cleaned up debug traces for AI commit message logic
-- AI commit message generation is attempted if possible, but falls back to generic message if not available
-
-### 0.1.0
-- Initial preview release
-- All features are opt-in via settings
-- Status bar indicator for enabled/disabled and working state
-- No errors if no remote is defined (commits only, skips sync)
+See [CHANGELOG.md](./CHANGELOG.md) for the full release history and details.
 
 ---
 

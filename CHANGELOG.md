@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.5] - 2025-06-12
+- Debounce interval for auto-commit after inactivity is now user-configurable via `vscode-autoGit.debounceIntervalSeconds` (default: 30 seconds, minimum: 5 seconds)
+- Auto-commit now triggers only after a true pause in editing, not just on save
+
 ## [0.1.4] - 2025-06-12
 - AI commit message prompt now uses file diffs and gitdoc-style instructions for more meaningful, semantic commit messages
 - Improved commit message quality for all auto-commits
