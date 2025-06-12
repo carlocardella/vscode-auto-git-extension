@@ -1,7 +1,7 @@
 # Changelog
 
 ## [0.1.2] - 2025-06-11
-- Add status bar toggle to enable/disable Auto Git with one click
+- Add status bar toggle to enable/disable autoGit with one click
 - Cleaned up debug traces for AI commit message logic
 - AI commit message generation is attempted if possible, but falls back to generic message if not available
 

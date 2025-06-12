@@ -2,7 +2,7 @@ import 'mocha';
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 
-describe('VSCode Auto Git Extension', () => {
+describe('VSCode autoGit Extension', () => {
   it('should have the correct configuration defaults', () => {
     const config = vscode.workspace.getConfiguration('vscode-autoGit');
     assert.strictEqual(config.get('enabled'), false);

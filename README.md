@@ -1,7 +1,7 @@
-# VSCode Auto Git Extension
+# VSCode autoGit Extension
 
 <p align="center">
-  <img src="icon2.png" alt="VSCode Auto Git Extension Icon" width="96" height="96">
+  <img src="icon2.png" alt="VSCode autoGit Extension Icon" width="96" height="96">
 </p>
 
 This extension automatically checks in changes to your local repository on file save and periodically pulls/pushes to your remote (GitHub, Azure Repos, Bitbucket, etc.).
@@ -12,18 +12,18 @@ This extension automatically checks in changes to your local repository on file 
 - **Periodic pull/push to remote** (configurable interval, if enabled)
 - **Sync on startup** (optional)
 - **Sync after each commit** (optional)
-- **Status bar indicator** shows if AutoGit is enabled and when it is working (configurable)
+- **Status bar indicator** shows if autoGit is enabled and when it is working (configurable)
 - **Works with any git remote**
 - **All features are disabled by default**; you must enable them in the settings
 - **No errors if no remote is defined** (commits only, skips sync)
-- **Status bar toggle** - Click the status bar item to enable or disable Auto Git instantly.
+- **Status bar toggle** - Click the status bar item to enable or disable autoGit instantly.
 
 ## Extension Settings
 - `vscode-autoGit.enabled` (boolean): If true, the extension will automatically commit and sync changes. If false, no git operations will be performed even if the extension is active.
 - `vscode-autoGit.syncInterval` (number): Interval in minutes for periodic pull/push to the remote repository. Default: 10
 - `vscode-autoGit.syncOnStartup` (boolean): If true, perform a git pull/push sync when the extension is activated, even if no file has been saved yet. Default: true
 - `vscode-autoGit.syncAfterCommit` (boolean): If true, perform a git pull/push sync immediately after each auto-commit. Default: false
-- `vscode-autoGit.statusBar` (boolean): Show a status bar indicator for Auto Git enabled/disabled state and working status. Default: true
+- `vscode-autoGit.statusBar` (boolean): Show a status bar indicator for autoGit enabled/disabled state and working status. Default: true
 
 ## Requirements
 - Git must be installed and available in your PATH
@@ -32,9 +32,9 @@ This extension automatically checks in changes to your local repository on file 
 ## Usage
 1. Install the extension (from VSIX or Marketplace).
 2. Open your workspace/folder containing a git repository.
-3. Go to Settings and search for "Auto Git" or "vscode-autoGit".
+3. Go to Settings and search for "autoGit" or "vscode-autoGit".
 4. Enable `vscode-autoGit.enabled` and configure other options as desired.
-5. Click the status bar item to quickly enable or disable Auto Git.
+5. Click the status bar item to quickly enable or disable autoGit.
 
 ## How It Works
 - On file save, all changes are staged and committed (if enabled).
@@ -47,7 +47,7 @@ This extension automatically checks in changes to your local repository on file 
 
 ## Commit Message Generation
 
-Auto Git attempts to use AI (Copilot) to generate a commit message for all staged changes. If unavailable, it falls back to a message like:
+autoGit attempts to use AI (Copilot) to generate a commit message for all staged changes. If unavailable, it falls back to a message like:
 
 ```
 Auto-commit: <file1>, <file2>, ... at <timestamp>
@@ -61,7 +61,7 @@ Auto-commit: <file1>, <file2>, ... at <timestamp>
 - AI commit message generation for all changes (if Copilot is available)
 
 ### 0.1.2
-- Add status bar toggle to enable/disable Auto Git with one click
+- Add status bar toggle to enable/disable autoGit with one click
 - Cleaned up debug traces for AI commit message logic
 - AI commit message generation is attempted if possible, but falls back to generic message if not available
 
