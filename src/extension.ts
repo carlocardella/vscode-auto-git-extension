@@ -225,6 +225,7 @@ export function deactivate() {
 
 async function generateCommitMessage(statusOutput: string): Promise<string> {
     let changedFiles: { path: string; status: string }[] = [];
+    let diffs: string[] = [];
     try {
         // Parse git status output
         const lines: string[] = statusOutput
@@ -240,24 +241,31 @@ async function generateCommitMessage(statusOutput: string): Promise<string> {
             };
         });
 
+        // Collect diffs for each changed file
+        const root = getWorkspaceRoot();
+        if (root && changedFiles.length > 0) {
+            const simpleGitInstance = simpleGit(root);
+            diffs = await Promise.all(
+                changedFiles.map(async (f) => {
+                    try {
+                        // Use HEAD as the base for diff, like gitdoc
+                        const fileDiff = await simpleGitInstance.diff(["HEAD", "--", f.path]);
+                        return `## ${f.path}\n---\n${fileDiff}`;
+                    } catch {
+                        return `## ${f.path}\n---\n(diff unavailable)`;
+                    }
+                })
+            );
+        }
+
         if (changedFiles.length === 0) {
             return "Auto-commit: Update files";
         }
 
-        // Create context for Copilot
-        const context = `Generate a concise commit message for the following changes:
-${changedFiles
-    .map((f) => `${f.status}: ${f.path}`)
-    .join("\n")}
+        // Compose a rich prompt for Copilot/AI
+        const prompt = `# Instructions\n\nYou are a developer working on a project that uses Git for version control. You have made some changes to the codebase and are preparing to commit them to the repository. Your task is to summarize the changes that you have made into a concise commit message that describes the essence of the changes that were made.\n\n* Always start the commit message with a present tense verb such as \"Update\", \"Fix\", \"Modify\", \"Add\", \"Improve\", \"Organize\", \"Arrange\", \"Mark\", etc.\n* Respond in plain text, with no markdown formatting, and without any extra content. Simply respond with the commit message, and without a trailing period.\n* Don't reference the file paths that were changed, but make sure to summarize all significant changes (using your best judgement).\n* When multiple files have been changed, give priority to edited files, followed by added files, and then renamed/deleted files.\n* If the changes are documentation or markdown, use verbs like \"Document\", \"Describe\", \"Clarify\", etc.\n\n# Code change diffs\n\n${diffs.join("\n\n")}\n\n# Commit message\n`;
 
-Guidelines:
-- Be concise and descriptive
-- Describe WHAT was changed, not HOW
-- Use present tense ("add" not "added")
-
-Generate only the commit message, no quotes or explanation.`;
-
-        console.log("autoGit: Attempting to generate AI commit message...");
+        console.log("vscode-autoGit: Attempting to generate AI commit message...");
 
         // Try to use Copilot Chat API
         try {
@@ -272,11 +280,11 @@ Generate only the commit message, no quotes or explanation.`;
 
                 if (models && models.length > 0) {
                     console.log(
-                        "autoGit: Copilot model found, generating message..."
+                        "vscode-autoGit: Copilot model found, generating message..."
                     );
                     const model = models[0];
                     const messages = [
-                        (vscode as any).LanguageModelChatMessage.User(context),
+                        (vscode as any).LanguageModelChatMessage.User(prompt),
                     ];
 
                     const response = await model.sendRequest(
@@ -292,7 +300,7 @@ Generate only the commit message, no quotes or explanation.`;
                     commitMessage = commitMessage.trim();
                     if (commitMessage && commitMessage.length > 0) {
                         console.log(
-                            "autoGit: AI commit message generated successfully"
+                            "vscode-autoGit: AI commit message generated successfully"
                         );
                         return commitMessage;
                     }
