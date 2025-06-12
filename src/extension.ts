@@ -248,7 +248,7 @@ async function generateCommitMessage(statusOutput: string): Promise<string> {
             diffs = await Promise.all(
                 changedFiles.map(async (f) => {
                     try {
-                        // Use HEAD as the base for diff, like gitdoc
+                        // Use HEAD as the base for diff
                         const fileDiff = await simpleGitInstance.diff(["HEAD", "--", f.path]);
                         return `## ${f.path}\n---\n${fileDiff}`;
                     } catch {
@@ -263,7 +263,22 @@ async function generateCommitMessage(statusOutput: string): Promise<string> {
         }
 
         // Compose a rich prompt for Copilot/AI
-        const prompt = `# Instructions\n\nYou are a developer working on a project that uses Git for version control. You have made some changes to the codebase and are preparing to commit them to the repository. Your task is to summarize the changes that you have made into a concise commit message that describes the essence of the changes that were made.\n\n* Always start the commit message with a present tense verb such as \"Update\", \"Fix\", \"Modify\", \"Add\", \"Improve\", \"Organize\", \"Arrange\", \"Mark\", etc.\n* Respond in plain text, with no markdown formatting, and without any extra content. Simply respond with the commit message, and without a trailing period.\n* Don't reference the file paths that were changed, but make sure to summarize all significant changes (using your best judgement).\n* When multiple files have been changed, give priority to edited files, followed by added files, and then renamed/deleted files.\n* If the changes are documentation or markdown, use verbs like \"Document\", \"Describe\", \"Clarify\", etc.\n\n# Code change diffs\n\n${diffs.join("\n\n")}\n\n# Commit message\n`;
+        const prompt = `# Instructions
+
+        You are a developer working on a project that uses Git for version control. You have made some changes to the codebase and are preparing to commit them to the repository. Your task is to summarize the changes that you have made into a concise commit message that describes the essence of the changes that were made.
+
+        * Always start the commit message with a present tense verb such as "Update", "Fix", "Modify", "Add", "Improve", "Organize", "Arrange", "Mark", etc.
+        * Respond in plain text, with no markdown formatting, and without any extra content. Simply respond with the commit message, and without a trailing period.
+        * Don't reference the file paths that were changed, but make sure summarize all significant changes (using your best judgement).
+        * When multiple files have been changed, give priority to edited files, followed by added files, and then renamed/deleted files.
+        * When a change includes adding an emoji to a list item in markdown, then interpret a runner emoji as marking it as in progress, a checkmark emoji as meaning its completed, and a muscle emoji as meaning its a stretch goal.
+        # Code change diffs
+
+        ${diffs.join("\n\n")}
+
+        # Commit message
+
+        `;
 
         console.log("vscode-autoGit: Attempting to generate AI commit message...");
 
