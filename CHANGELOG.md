@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.6] - 2025-06-12
+- Extension package is now minimal: only strictly needed files are included in the VSIX for smaller size and faster install.
+- No code or feature changes, just packaging optimization.
+
 ## [0.1.5] - 2025-06-12
 - Debounce interval for auto-commit after inactivity is now user-configurable via `vscode-autoGit.debounceIntervalSeconds` (default: 30 seconds, minimum: 5 seconds)
 - Auto-commit now triggers only after a true pause in editing, not just on save

@@ -77,6 +77,9 @@ Auto-commit: <file1>, <file2>, ... at <timestamp>
 
 See [CHANGELOG.md](./CHANGELOG.md) for the full release history and details.
 
+### Latest
+- Extension package is now minimal: only strictly needed files are included in the VSIX for smaller size and faster install (v0.1.6).
+
 ---
 
 **Credits:**

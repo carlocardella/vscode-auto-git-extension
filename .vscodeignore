@@ -1,0 +1,10 @@
+# Exclude everything by default
+**/*
+
+# Include only the strictly needed files for the extension
+!out/extension.js
+!README.md
+!CHANGELOG.md
+!LICENSE
+!icon2.png
+!package.json
