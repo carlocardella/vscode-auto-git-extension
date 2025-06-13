@@ -7,11 +7,18 @@ let git: SimpleGit;
 let statusBarItem: vscode.StatusBarItem | undefined;
 let commitTimers: Map<string, NodeJS.Timeout> = new Map();
 
+/**
+ * Returns the root path of the current workspace, or undefined if not available.
+ */
 function getWorkspaceRoot(): string | undefined {
     const folders = vscode.workspace.workspaceFolders;
     return folders && folders.length > 0 ? folders[0].uri.fsPath : undefined;
 }
 
+/**
+ * Updates the status bar to reflect whether autoGit is working or idle.
+ * @param working Whether autoGit is currently performing an operation.
+ */
 function setStatusBarWorking(working: boolean) {
     if (!statusBarItem) return;
     const config = vscode.workspace.getConfiguration("vscode-autoGit");
@@ -35,6 +42,11 @@ function setStatusBarWorking(working: boolean) {
     }
 }
 
+/**
+ * Stages all changes and commits them with an AI-generated or fallback message.
+ * Optionally syncs with remote if configured.
+ * @param document The VS Code text document that triggered the commit.
+ */
 async function autoCommit(document: vscode.TextDocument) {
     const config = vscode.workspace.getConfiguration("vscode-autoGit");
     const enabled = config.get<boolean>("enabled", false);
@@ -80,6 +92,9 @@ async function autoCommit(document: vscode.TextDocument) {
     }
 }
 
+/**
+ * Stages and commits all pending changes, then pulls and pushes to remote if available.
+ */
 async function autoSync() {
     const config = vscode.workspace.getConfiguration("vscode-autoGit");
     const enabled = config.get<boolean>("enabled", false);
@@ -122,11 +137,18 @@ async function autoSync() {
     }
 }
 
+/**
+ * Starts or restarts the periodic sync timer with the given interval in minutes.
+ * @param intervalMinutes The interval in minutes for periodic sync.
+ */
 function startSyncTimer(intervalMinutes: number) {
     if (syncInterval) clearInterval(syncInterval);
     syncInterval = setInterval(autoSync, intervalMinutes * 60 * 1000);
 }
 
+/**
+ * Toggles the autoGit enabled/disabled state in the workspace configuration.
+ */
 function toggleautoGitEnabled() {
     const config = vscode.workspace.getConfiguration("vscode-autoGit");
     const enabled = config.get<boolean>("enabled", false);
@@ -141,6 +163,11 @@ function toggleautoGitEnabled() {
         });
 }
 
+/**
+ * Updates the status bar item to reflect the enabled/disabled state.
+ * @param enabled Whether autoGit is enabled.
+ * @param show Whether to show the status bar item.
+ */
 function updateStatusBar(enabled: boolean, show: boolean) {
     if (!show) {
         if (statusBarItem) {
@@ -164,7 +191,10 @@ function updateStatusBar(enabled: boolean, show: boolean) {
     statusBarItem.show();
 }
 
-// Debounced auto-commit on pause after editing
+/**
+ * Debounced auto-commit: schedules a commit after a period of inactivity following edits.
+ * @param document The VS Code text document being edited.
+ */
 function scheduleAutoCommitOnEdit(document: vscode.TextDocument) {
     if (document.uri.scheme !== 'file') return;
     const config = vscode.workspace.getConfiguration("vscode-autoGit");
@@ -183,11 +213,19 @@ function scheduleAutoCommitOnEdit(document: vscode.TextDocument) {
     );
 }
 
+/**
+ * Schedules a debounced auto-commit on file save (for backward compatibility).
+ * @param document The VS Code text document being saved.
+ */
 function scheduleAutoCommit(document: vscode.TextDocument) {
     // For backward compatibility: still debounce on save, but use the same logic
     scheduleAutoCommitOnEdit(document);
 }
 
+/**
+ * Activates the extension, registering all commands, listeners, and timers.
+ * @param context The VS Code extension context.
+ */
 export function activate(context: vscode.ExtensionContext) {
     const config = vscode.workspace.getConfiguration("vscode-autoGit");
     const interval = config.get<number>("syncInterval", 10);
@@ -236,10 +274,18 @@ export function activate(context: vscode.ExtensionContext) {
     );
 }
 
+/**
+ * Deactivates the extension, cleaning up timers.
+ */
 export function deactivate() {
     if (syncInterval) clearInterval(syncInterval);
 }
 
+/**
+ * Generates a commit message using AI (if available) or a fallback message.
+ * @param statusOutput The output of `git status --porcelain`.
+ * @returns The generated commit message.
+ */
 async function generateCommitMessage(statusOutput: string): Promise<string> {
     let changedFiles: { path: string; status: string }[] = [];
     let diffs: string[] = [];
@@ -375,6 +421,11 @@ async function generateCommitMessage(statusOutput: string): Promise<string> {
     return `Auto-commit: ${fileList} at ${now}`;
 }
 
+/**
+ * Maps git porcelain status codes to human-readable file status.
+ * @param statusCode The two-character git status code.
+ * @returns The file status as a string.
+ */
 function getFileStatusFromCode(statusCode: string): string {
     // Git porcelain status codes
     if (statusCode.includes("A")) return "Added";
