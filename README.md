@@ -6,7 +6,7 @@
 ![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/carlocardella.vscode-autogit)
 ![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/carlocardella.vscode-autogit)
 [![GitHub issues](https://img.shields.io/github/issues/carlocardella/vscode-autogit.svg)](https://github.com/carlocardella/vscode-autogit/issues)
-[![GitHub license](https://img.shields.io/github/license/carlocardella/vscode-autogit.svg)](https://github.com/carlocardella/vscode-autogit/blob/master/LICENSE.md)
+[![GitHub license](https://img.shields.io/github/license/carlocardella/vscode-autogit.svg)](https://github.com/carlocardella/vscode-auto-git-extension/blob/master/LICENSE)
 <!-- [![Twitter](https://img.shields.io/twitter/url/https/github.com/carlocardella/vscode-autogit.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fcarlocardella%2Fvscode-autogit) -->
 <!-- [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/carlocardella/vscode-autogit) -->
 
