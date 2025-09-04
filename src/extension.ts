@@ -164,6 +164,63 @@ function toggleautoGitEnabled() {
 }
 
 /**
+ * Manually commits and syncs changes on demand.
+ * This function can be called regardless of the autoGit enabled state.
+ */
+async function manualCommitAndSync() {
+    setStatusBarWorking(true);
+    const root = getWorkspaceRoot();
+    if (!root) {
+        vscode.window.showErrorMessage("No workspace folder found");
+        setStatusBarWorking(false);
+        return;
+    }
+
+    git = simpleGit(root);
+    
+    try {
+        // Check if there are any changes to commit
+        await git.add("-A");
+        const status = await git.status();
+        
+        if (status.staged.length === 0) {
+            vscode.window.showInformationMessage("No changes to commit");
+            setStatusBarWorking(false);
+            return;
+        }
+
+        // Generate commit message
+        const porcelain = await git.raw(["status", "--porcelain"]);
+        let commitMessage = await generateCommitMessage(porcelain);
+        if (!commitMessage || !commitMessage.trim()) {
+            commitMessage = `Manual commit: All changes at ${new Date().toLocaleString()}`;
+        }
+
+        // Commit the changes
+        await git.commit(commitMessage);
+        vscode.window.showInformationMessage(`Committed changes: ${commitMessage}`);
+
+        // Check if remote exists
+        const remotes = await git.getRemotes(true);
+        if (remotes.length === 0) {
+            vscode.window.showWarningMessage("No remote repository configured. Changes committed locally only.");
+            setStatusBarWorking(false);
+            return;
+        }
+
+        // Sync with remote
+        await git.pull();
+        await git.push();
+        vscode.window.showInformationMessage("Successfully committed and synced changes with remote");
+        
+    } catch (err) {
+        vscode.window.showErrorMessage(`Commit and sync failed: ${err}`);
+    } finally {
+        setStatusBarWorking(false);
+    }
+}
+
+/**
  * Updates the status bar item to reflect the enabled/disabled state.
  * @param enabled Whether autoGit is enabled.
  * @param show Whether to show the status bar item.
@@ -270,6 +327,13 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand(
             "extension.autoGit.toggleEnabled",
             toggleautoGitEnabled
+        )
+    );
+
+    context.subscriptions.push(
+        vscode.commands.registerCommand(
+            "extension.autoGit.commitAndSync",
+            manualCommitAndSync
         )
     );
 }

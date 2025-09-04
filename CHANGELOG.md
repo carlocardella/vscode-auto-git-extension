@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.2.0] - 2025-09-04
+- Added new command "Commit and Sync Changes" for manual on-demand commit and sync operations
+
 ## [0.1.6] - 2025-06-12
 - AI commit message generation now uses the LLM model selected by the user in VS Code, falling back to Copilot/gpt-4 only if no user-selected model is available.
 - Extension package is now minimal: only strictly needed files are included in the VSIX for smaller size and faster install.
@@ -31,8 +34,3 @@
 - Status bar indicator for enabled/disabled and working state (configurable)
 - No errors if no remote is defined (commits only, skips sync)
 - All features are opt-in via settings
-
-## [Unreleased]
-- Removed all AI/Copilot commit message generation logic.
-- Auto-commits now always use a static message: `Auto-commit: <filename> saved at <timestamp>`.
-- No context, instructions, or Copilot integration remains for commit messages.
