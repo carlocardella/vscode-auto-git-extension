@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.1] - 2025-09-04
+- Removed unused `extension.autoGit` command from package.json (cleanup of dead code)
+- Added command categories for better organization in VS Code Command Palette
+- Commands now appear as "VSCode autoGit Extension: [Command Name]" for improved discoverability
+
 ## [0.2.0] - 2025-09-04
 - Added new command "Commit and Sync Changes" for manual on-demand commit and sync operations
 
