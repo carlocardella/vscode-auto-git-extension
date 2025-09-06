@@ -1,16 +1,16 @@
 # VSCode autoGit Extension
 
-<!-- ![.github/workflows/BuildAndPublish.yml](https://github.com/carlocardella/vscode-autogit/workflows/.github/workflows/BuildAndPublish.yml/badge.svg?branch=master) -->
+<!-- ![.github/workflows/BuildAndPublish.yml](https://github.com/carlocardella/vscode-auto-git-extension/workflows/.github/workflows/BuildAndPublish.yml/badge.svg?branch=master) -->
 ![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/carlocardella.vscode-autogit)
 ![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/carlocardella.vscode-autogit)
 ![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/carlocardella.vscode-autogit)
 ![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/carlocardella.vscode-autogit)
-[![GitHub issues](https://img.shields.io/github/issues/carlocardella/vscode-autogit.svg)](https://github.com/carlocardella/vscode-autogit/issues)
-[![GitHub license](https://img.shields.io/github/license/carlocardella/vscode-autogit.svg)](https://github.com/carlocardella/vscode-auto-git-extension/blob/master/LICENSE)
-<!-- [![Twitter](https://img.shields.io/twitter/url/https/github.com/carlocardella/vscode-autogit.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fcarlocardella%2Fvscode-autogit) -->
-<!-- [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/carlocardella/vscode-autogit) -->
+[![GitHub issues](https://img.shields.io/github/issues/carlocardella/vscode-auto-git-extension.svg)](https://github.com/carlocardella/vscode-auto-git-extension/issues)
+[![GitHub license](https://img.shields.io/github/license/carlocardella/vscode-auto-git-extension.svg)](https://github.com/carlocardella/vscode-auto-git-extension/blob/master/LICENSE)
+<!-- [![Twitter](https://img.shields.io/twitter/url/https/github.com/carlocardella/vscode-auto-git-extension.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fcarlocardella%2Fvscode-auto-git-extension) -->
+<!-- [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/carlocardella/vscode-auto-git-extension) -->
 
-[Download for VS Code](https://marketplace.visualstudio.com/items?itemName=CarloCardella.vscode-autogit)
+[Download for VS Code](https://marketplace.visualstudio.com/items?itemName=carlocardella.vscode-autogit)
 
 <!-- [Download for VS Codium](https://open-vsx.org/extension/carlocardella/vscode-autogit) -->
 
