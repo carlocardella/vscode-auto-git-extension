@@ -36,11 +36,26 @@ This extension automatically checks in changes to your local repository on file 
 - **Status bar toggle** - Click the status bar item to enable or disable Auto Git instantly.
 - **User-configurable debounce interval** for auto-commit after inactivity (default: 30 seconds)
 
+## Workflow Options
+
+Auto Git supports two main workflows to fit different preferences:
+
+### 1. Auto-commit Only (Default)
+- `syncAfterCommit: false` (default)
+- Changes are automatically committed after edits
+- Sync (push/pull) happens manually or via periodic timer only
+- **Best for**: Users who want automatic local commits but prefer manual control over when changes are pushed/pulled
+
+### 2. Auto-commit + Auto-sync  
+- `syncAfterCommit: true`
+- Changes are automatically committed AND immediately synced (pushed/pulled) after each edit
+- **Best for**: Users who want fully automatic git operations and don't mind frequent network activity
+
 ## Extension Settings
 - `vscode-autoGit.enabled` (boolean): If true, the extension will automatically commit and sync changes. If false, no git operations will be performed even if the extension is active.
 - `vscode-autoGit.syncInterval` (number): Interval in minutes for periodic pull/push to the remote repository. Default: 10
 - `vscode-autoGit.syncOnStartup` (boolean): If true, perform a git pull/push sync when the extension is activated, even if no file has been saved yet. Default: true
-- `vscode-autoGit.syncAfterCommit` (boolean): If true, perform a git pull/push sync immediately after each auto-commit. Default: false
+- `vscode-autoGit.syncAfterCommit` (boolean): If true, perform a git pull/push sync immediately after each auto-commit. If false, only commits are performed automatically (sync manually or via periodic timer). Default: false
 - `vscode-autoGit.statusBar` (boolean): Show a status bar indicator for Auto Git enabled/disabled state and working status. Default: true
 - `vscode-autoGit.debounceIntervalSeconds` (number): Number of seconds of inactivity before auto-commit is triggered after editing a file. Default: 30, minimum: 5
 

@@ -2,7 +2,7 @@
     "name": "vscode-autogit",
     "displayName": "VSCode autoGit Extension",
     "description": "An extension that automatically checks in changes to the local repository on file save and periodically pulls/pushes to GitHub.",
-    "version": "0.2.1",
+    "version": "0.2.3",
     "publisher": "carlocardella",
     "author": {
         "name": "Carlo Cardella",
@@ -57,7 +57,7 @@
                 "vscode-autoGit.syncAfterCommit": {
                     "type": "boolean",
                     "default": false,
-                    "description": "If true, perform a git pull/push sync immediately after each auto-commit.",
+                    "description": "If true, perform a git pull/push sync immediately after each auto-commit. If false, only commits are performed automatically (sync manually or via periodic timer).",
                     "scope": "resource"
                 },
                 "vscode-autoGit.enabled": {

@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.2.3] - 2025-09-05
+- **CRITICAL SAFETY FIX**: `autoSync()` now safely checks for uncommitted changes before pulling from remote
+- If uncommitted changes are detected during sync, the operation is skipped (no pull/push) to prevent conflicts or data loss
+- Added console logging for sync operations without bothering users with popups
+- Sync will be retried on the next sync cycle after changes are committed
+- This prevents potential merge conflicts or data loss when `syncAfterCommit: true` is enabled and multiple files are being edited simultaneously
+
+## [0.2.2] - 2025-09-05
+- **FIXED**: Automatic syncing (push/pull) now works properly when enabled
+- **IMPROVED**: Better separation of auto-commit vs auto-sync behavior - users can now choose:
+  - Auto-commit only (default): `syncAfterCommit: false` - commits happen automatically, sync manually or via periodic timer
+  - Auto-commit + auto-sync: `syncAfterCommit: true` - both commit and sync happen automatically after each change
+- Improved function separation: `autoSync()` now only handles sync operations, while `commitAndSync()` handles full commit + sync operations
+- Periodic sync timer now uses `commitAndSync()` to ensure any pending changes are committed before syncing
+- Enhanced configuration description to clarify the two workflow options available
+- This resolves the issue introduced in v0.2.0 where the sync functionality was not working properly
+
 ## [0.2.1] - 2025-09-04
 - Removed unused `extension.autoGit` command from package.json (cleanup of dead code)
 - Added command categories for better organization in VS Code Command Palette

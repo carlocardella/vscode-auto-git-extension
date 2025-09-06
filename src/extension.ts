@@ -93,9 +93,56 @@ async function autoCommit(document: vscode.TextDocument) {
 }
 
 /**
- * Stages and commits all pending changes, then pulls and pushes to remote if available.
+ * Syncs with remote repository by pulling and pushing changes.
+ * Safely checks for uncommitted changes first - if any exist, skips sync to avoid conflicts.
  */
 async function autoSync() {
+    const config = vscode.workspace.getConfiguration("vscode-autoGit");
+    const enabled = config.get<boolean>("enabled", false);
+    if (!enabled) return;
+    setStatusBarWorking(true);
+    const root = getWorkspaceRoot();
+    if (!root) {
+        setStatusBarWorking(false);
+        return;
+    }
+    git = simpleGit(root);
+    try {
+        // Safety check: ensure no uncommitted changes before syncing
+        const status = await git.status();
+        if (status.files.length > 0) {
+            console.log("autoGit: Skipping sync - uncommitted changes detected. Will retry on next sync cycle.");
+            vscode.window.setStatusBarMessage("autoGit: Sync skipped (uncommitted changes)", 3000);
+            setStatusBarWorking(false);
+            return;
+        }
+
+        const remotes = await git.getRemotes(true);
+        if (remotes.length === 0) {
+            vscode.window.setStatusBarMessage(
+                "autoGit: No remote defined, skipping sync",
+                2000
+            );
+            setStatusBarWorking(false);
+            return;
+        }
+        await git.pull();
+        await git.push();
+        console.log("autoGit: Successfully synced with remote");
+        vscode.window.setStatusBarMessage("autoGit: Synced with remote", 2000);
+    } catch (err) {
+        console.warn("autoGit: Sync failed:", err);
+        vscode.window.showErrorMessage(`Auto-sync failed: ${err}`);
+    } finally {
+        setStatusBarWorking(false);
+    }
+}
+
+/**
+ * Commits any pending changes and then syncs with remote.
+ * Used for manual operations and periodic full sync.
+ */
+async function commitAndSync() {
     const config = vscode.workspace.getConfiguration("vscode-autoGit");
     const enabled = config.get<boolean>("enabled", false);
     if (!enabled) return;
@@ -118,6 +165,9 @@ async function autoSync() {
         const status = await git.status();
         if (status.staged.length > 0) {
             await git.commit(commitMessage);
+            console.log("autoGit: Committed pending changes before sync");
+        } else {
+            console.log("autoGit: No changes to commit before sync");
         }
         const remotes = await git.getRemotes(true);
         if (remotes.length === 0) {
@@ -143,7 +193,7 @@ async function autoSync() {
  */
 function startSyncTimer(intervalMinutes: number) {
     if (syncInterval) clearInterval(syncInterval);
-    syncInterval = setInterval(autoSync, intervalMinutes * 60 * 1000);
+    syncInterval = setInterval(commitAndSync, intervalMinutes * 60 * 1000);
 }
 
 /**
@@ -293,7 +343,7 @@ export function activate(context: vscode.ExtensionContext) {
     startSyncTimer(interval);
 
     if (syncOnStartup && enabled) {
-        autoSync();
+        commitAndSync();
     }
 
     context.subscriptions.push(
