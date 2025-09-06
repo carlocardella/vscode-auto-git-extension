@@ -2,7 +2,7 @@
     "name": "vscode-autogit",
     "displayName": "VSCode autoGit Extension",
     "description": "An extension that automatically checks in changes to the local repository on file save and periodically pulls/pushes to GitHub.",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "publisher": "carlocardella",
     "author": {
         "name": "Carlo Cardella",
@@ -22,7 +22,7 @@
         "watch": "tsc -watch -p ./",
         "webpack": "webpack --mode production",
         "webpack:watch": "webpack --watch --mode development",
-        "test": "vscode-test --config=.vscode-test.json --extensionDevelopmentPath=. --extensionTestsPath=./out/extension.test.js"
+        "test": "node ./tests/runTest.js"
     },
     "contributes": {
         "commands": [
@@ -88,10 +88,13 @@
     "devDependencies": {
         "@types/mocha": "^10.0.10",
         "@types/node": "^16.11.7",
+        "@types/sinon": "^17.0.4",
         "@types/vscode": "^1.63.0",
         "@vscode/test-cli": "^0.0.11",
         "@vscode/test-electron": "^2.5.2",
+        "glob": "^11.0.3",
         "mocha": "^11.6.0",
+        "sinon": "^21.0.0",
         "ts-loader": "^9.5.1",
         "typescript": "^4.4.4",
         "webpack": "^5.88.2",

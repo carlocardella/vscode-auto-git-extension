@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.4] - 2025-09-05
+- **Added comprehensive test suite** for all extension functionality
+- Created `ExtensionTestHelper` class for testable git operations
+- Added safety tests to validate the critical autoSync fix
+- Added configuration, error handling, and integration tests
+- Added testing dependencies: sinon, @types/sinon, glob
+- Created test documentation in TESTING.md
+- Tests cover: safety fixes, configuration handling, git operations, error scenarios, and complete workflows
+- Improved code reliability and prevents regressions
+
 ## [0.2.3] - 2025-09-05
 - **CRITICAL SAFETY FIX**: `autoSync()` now safely checks for uncommitted changes before pulling from remote
 - If uncommitted changes are detected during sync, the operation is skipped (no pull/push) to prevent conflicts or data loss

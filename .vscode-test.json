@@ -1,5 +1,6 @@
 {
-  "files": "out/extension.test.js",
+  "extensionDevelopmentPath": ".",
+  "extensionTestsPath": "./out/tests/index.js",
   "workspaceFolder": "test-fixture",
   "vscodeVersion": "stable"
 }

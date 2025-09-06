@@ -9,6 +9,6 @@
     "strict": true,
     "esModuleInterop": true
   },
-  "include": ["src", "tests/extension.test.ts"],
+  "include": ["src", "tests"],
   "exclude": ["node_modules", ".vscode-test", "vscode-auto-git-extension"]
 }
