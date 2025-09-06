@@ -1,10 +1,49 @@
 # Exclude everything by default
 **/*
 
-# Include only the strictly needed files for the extension
+# Include only the strictly needed files for the extension runtime
 !out/extension.js
 !README.md
 !CHANGELOG.md
 !LICENSE
-!icon2.png
 !package.json
+
+# Include only the main icon (not all icon variants)
+!icon2.png
+
+# Exclude all development and testing files
+src/**
+tests/**
+test-fixture/**
+out/src/**
+out/tests/**
+*.test.js
+*.test.js.map
+**/test*
+**/spec*
+
+# Exclude development configuration
+.vscode/**
+.vscode-test.json
+tsconfig.json
+webpack.config.js
+.gitignore
+.vscodeignore
+
+# Exclude documentation that's not essential
+TESTING.md
+*.md
+!README.md
+!CHANGELOG.md
+
+# Exclude build artifacts and dependencies
+node_modules/**
+package-lock.json
+*.vsix
+
+# Exclude unused icons (keep icon2.png as it's used in package.json)
+icon3.png
+icon4.png
+
+# Exclude source maps in production
+**.map
