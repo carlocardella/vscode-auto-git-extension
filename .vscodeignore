@@ -44,6 +44,7 @@ package-lock.json
 # Exclude unused icons (keep icon2.png as it's used in package.json)
 icon3.png
 icon4.png
+icon2-backup.png
 
 # Exclude source maps in production
 **.map
