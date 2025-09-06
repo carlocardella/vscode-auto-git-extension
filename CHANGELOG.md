@@ -1,6 +1,7 @@
 # Changelog
 
-## [0.2.4] - 2025-09-05
+## [1.0.0] - 2025-09-05 🎉 **FIRST MAJOR RELEASE**
+- **🚀 STABLE RELEASE**: Extension is now mature and production-ready, removing preview flag
 - **MAJOR PACKAGE OPTIMIZATION**: Dramatically reduced extension package size by 94% (1.02MB → 58KB)
 - **Icon optimization**: Resized extension icon from 841×829px (1MB) to 128×128px (22KB) - 98% size reduction
 - **Package cleanup**: Added comprehensive `.vscodeignore` rules to exclude development files from distribution:
