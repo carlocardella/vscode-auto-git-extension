@@ -3,4 +3,4 @@ out/
 .vscode-test/
 .env
 *.log
-*.vsixicon2-backup.png
+*.vsix
