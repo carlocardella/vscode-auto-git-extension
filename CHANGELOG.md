@@ -1,6 +1,14 @@
 # Changelog
 
 ## [0.2.4] - 2025-09-05
+- **MAJOR PACKAGE OPTIMIZATION**: Dramatically reduced extension package size by 94% (1.02MB → 58KB)
+- **Icon optimization**: Resized extension icon from 841×829px (1MB) to 128×128px (22KB) - 98% size reduction
+- **Package cleanup**: Added comprehensive `.vscodeignore` rules to exclude development files from distribution:
+  - Excluded `tests/` directory and compiled test files (`out/tests/`)
+  - Excluded source maps (`*.map` files) and TypeScript source files (`src/`)
+  - Excluded development configuration files and unused icons
+  - Excluded VSCode test artifacts and node_modules source (bundled into extension.js)
+- **Result**: Extension now contains only 8 essential files, making downloads and installation much faster
 - **Added comprehensive test suite** for all extension functionality
 - Created `ExtensionTestHelper` class for testable git operations
 - Added safety tests to validate the critical autoSync fix
