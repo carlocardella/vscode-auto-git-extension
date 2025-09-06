@@ -4,7 +4,7 @@
     {
       "label": "Build & Package VSIX",
       "type": "shell",
-      "command": "npm run webpack && npx vsce package --pre-release",
+      "command": "npm run webpack && npx vsce package",
       "group": {
         "kind": "build",
         "isDefault": true
