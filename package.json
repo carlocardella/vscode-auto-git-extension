@@ -2,7 +2,7 @@
     "name": "vscode-autogit",
     "displayName": "VSCode autoGit Extension",
     "description": "An extension that automatically checks in changes to the local repository on file save and periodically pulls/pushes to GitHub.",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "publisher": "carlocardella",
     "author": {
         "name": "Carlo Cardella",
@@ -77,6 +77,12 @@
                     "default": 30,
                     "minimum": 5,
                     "description": "Number of seconds of inactivity before auto-commit is triggered after editing a file.",
+                    "scope": "resource"
+                },
+                "vscode-autoGit.preferredModel": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Preferred language model identifier for commit message generation. Leave empty to use the globally selected model.",
                     "scope": "resource"
                 }
             }

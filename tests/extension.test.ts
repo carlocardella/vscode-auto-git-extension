@@ -73,7 +73,8 @@ describe('VSCode autoGit Extension', () => {
         syncOnStartup: true,
         syncAfterCommit: false,
         statusBar: true,
-        debounceIntervalSeconds: 30
+        debounceIntervalSeconds: 30,
+        preferredModel: ''
       });
       
       sandbox.stub(vscode.workspace, 'getConfiguration').returns(mockConfig as any);
@@ -85,6 +86,7 @@ describe('VSCode autoGit Extension', () => {
       assert.strictEqual(config.get('syncAfterCommit', false), false);
       assert.strictEqual(config.get('statusBar', true), true);
       assert.strictEqual(config.get('debounceIntervalSeconds', 30), 30);
+      assert.strictEqual(config.get('preferredModel', ''), '');
     });
   });
 

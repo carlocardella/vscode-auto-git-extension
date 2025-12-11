@@ -462,16 +462,32 @@ async function generateCommitMessage(statusOutput: string): Promise<string> {
         // Try to use Copilot Chat API
         try {
             // Use the user's selected model if available, otherwise fall back to Copilot/gpt-4
+            const config = vscode.workspace.getConfiguration("vscode-autoGit");
+            const preferredModelId = (config.get<string>("preferredModel", "") || "").trim();
+
             let models;
             if ((vscode as any).lm && typeof (vscode as any).lm.selectChatModels === "function") {
                 // Try to get all available models (user's selection is prioritized by VS Code UI)
                 models = await (vscode as any).lm.selectChatModels();
             }
+
             if (models && models.length > 0) {
-                console.log(
-                    `vscode-autoGit: Using user-selected LLM model: ${models[0].id || models[0].family}`
-                );
-                const model = models[0];
+                let model = models[0];
+
+                if (preferredModelId) {
+                    const preferred = models.find((m: any) => m.id === preferredModelId || m.family === preferredModelId);
+                    if (preferred) {
+                        model = preferred;
+                        console.log(`vscode-autoGit: Using preferred LLM model: ${preferred.id || preferred.family}`);
+                    } else {
+                        console.log(`vscode-autoGit: Preferred model '${preferredModelId}' not available; falling back to user-selected model ${model.id || model.family}`);
+                    }
+                } else {
+                    console.log(
+                        `vscode-autoGit: Using user-selected LLM model: ${model.id || model.family}`
+                    );
+                }
+
                 const messages = [
                     (vscode as any).LanguageModelChatMessage.User(prompt),
                 ];

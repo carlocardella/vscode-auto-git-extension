@@ -58,6 +58,7 @@ Auto Git supports two main workflows to fit different preferences:
 - `vscode-autoGit.syncAfterCommit` (boolean): If true, perform a git pull/push sync immediately after each auto-commit. If false, only commits are performed automatically (sync manually or via periodic timer). Default: false
 - `vscode-autoGit.statusBar` (boolean): Show a status bar indicator for Auto Git enabled/disabled state and working status. Default: true
 - `vscode-autoGit.debounceIntervalSeconds` (number): Number of seconds of inactivity before auto-commit is triggered after editing a file. Default: 30, minimum: 5
+- `vscode-autoGit.preferredModel` (string): Identifier of the language model to use for commit message generation (e.g., Copilot model id). Leave empty to use the globally selected model.
 
 ## Requirements
 - Git must be installed and available in your PATH
@@ -87,6 +88,8 @@ Auto Git attempts to use AI (Copilot) to generate a commit message for all stage
 ```
 Auto-commit: <file1>, <file2>, ... at <timestamp>
 ```
+
+You can point commit message generation to a specific LLM via `vscode-autoGit.preferredModel` if you want to reserve your global model choice for other tasks (e.g., use a lower-cost model for frequent commit messages).
 
 ## Release Notes
 
