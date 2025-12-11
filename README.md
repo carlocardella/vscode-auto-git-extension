@@ -96,7 +96,7 @@ You can point commit message generation to a specific LLM via `vscode-autoGit.pr
 See [CHANGELOG.md](./CHANGELOG.md) for the full release history and details.
 
 ### Latest
-- Extension package is now minimal: only strictly needed files are included in the VSIX for smaller size and faster install (v0.1.6).
+- Added `vscode-autoGit.preferredModel` to select a dedicated LLM for commit messages (v1.1.0).
 
 ---
 
