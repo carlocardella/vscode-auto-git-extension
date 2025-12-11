@@ -3,6 +3,7 @@
 ## 1.1.0 - 2025-12-10
 - Added `vscode-autoGit.preferredModel` so commit messages can use a dedicated LLM separate from the globally selected model
 - Commit message generation now prefers the configured model when available, falling back to the user's selection
+- Bump npm dependencies
 - Addresses [#5 - Feature Request: Separate Model Selection for Commit Message Generation](https://github.com/carlocardella/vscode-auto-git-extension/issues/5)
 
 ## 1.0.0 - 2025-09-05 🎉 **FIRST MAJOR RELEASE**
