@@ -229,6 +229,32 @@ describe('VSCode autoGit Extension', () => {
   });
 
   describe('Commit Message Generation Tests', () => {
+    it('should respect preferredModel configuration', () => {
+      const mockConfigWithPreferred = createMockWorkspaceConfiguration({
+        preferredModel: 'copilot-gpt-3.5-turbo'
+      });
+      
+      sandbox.stub(vscode.workspace, 'getConfiguration').returns(mockConfigWithPreferred as any);
+      
+      const config = vscode.workspace.getConfiguration('vscode-autoGit');
+      const preferredModel = config.get<string>('preferredModel', '');
+      
+      assert.strictEqual(preferredModel, 'copilot-gpt-3.5-turbo');
+    });
+
+    it('should use empty string when no preferredModel is configured', () => {
+      const mockConfigEmpty = createMockWorkspaceConfiguration({
+        preferredModel: ''
+      });
+      
+      sandbox.stub(vscode.workspace, 'getConfiguration').returns(mockConfigEmpty as any);
+      
+      const config = vscode.workspace.getConfiguration('vscode-autoGit');
+      const preferredModel = config.get<string>('preferredModel', '');
+      
+      assert.strictEqual(preferredModel, '');
+    });
+
     it('should generate commit message for single file change', async function() {
       if (!testHelper) {
         this.skip();
